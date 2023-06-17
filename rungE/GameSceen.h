@@ -1,5 +1,4 @@
 //#pragma once
-#ifndef GAMESCREEN_H
 #define GAMESCREEN_H
 
 #include <vector>
@@ -23,10 +22,12 @@ public:
     void MoveTail(Snake* head);
     int GetX() const;
     int GetY() const;
+    void SnakeMove();
+    bool CheckCollisionTail(Snake *tail, int x, int y);
     Snake* tail;
     Snake* body;
     bool isHead;
-    void SnakeMove();
+    
 private:
     int x;
     int y;
@@ -57,14 +58,15 @@ public:
     void ShowScreenBuf();
     void Draw();
     void ShowTail(Snake *head);
-
     void MoveSnakeUp();
     void MoveSnakeDown();
     void MoveSnakeLeft();
     void MoveSnakeRight();
     bool CheckBoundary();
     void CheckCollision();
+    void Init();
     
+
 private:
     char* screenBuffer;
     int screenWidth;
@@ -73,7 +75,5 @@ private:
     std::vector<std::vector<char>> screen;
     Snake snake;
     Fruit *fruit;
-    bool isGameOver;
-};
 
-#endif
+};

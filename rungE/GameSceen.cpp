@@ -2,7 +2,6 @@
 #include <vector>
 #include <cstdlib>
 #include "GameSceen.h"
-#include "GameOver.h"
 
 GameSceen::GameSceen(int width, int height)
     : screenWidth(width), screenHeight(height), score(0), snake(screenWidth / 2, screenHeight / 2)
@@ -63,11 +62,8 @@ void GameSceen::Draw()
     }
     std::cout << "Score: " << score << std::endl;
 
-    if (isGameOver)
-    {
-        
-    }
 }
+
 void GameSceen::CheckCollision()
 {
     if (snake.GetX() == fruit->GetX() && snake.GetY() == fruit->GetY())
@@ -78,6 +74,30 @@ void GameSceen::CheckCollision()
         fruit = new Fruit(screenWidth, screenHeight);
     }
 }
+
+void GameSceen::Init()
+{
+    score = 0;
+    snake.SnakeMove();
+    snake.tail = nullptr;
+}
+
+bool Snake::CheckCollisionTail(Snake *tail, int x, int y)
+{
+    if (tail == nullptr)
+    {
+        return false;
+    }
+
+    if (x == tail->GetX() && y == tail->GetY() && tail->isSpawn == false)
+    {
+        return true;
+    }
+
+    return CheckCollisionTail(tail->tail, x, y);
+}
+
+
 
 void Snake::AddTail(Snake *head)
 {
@@ -117,11 +137,12 @@ void GameSceen::ShowTail(Snake* head)
 {
     if (head->tail == nullptr)
     {
-        return;
+        return; 
     }
     screenBuffer[head->tail->GetY() * screenWidth + head->tail->GetX()] = '*';
     ShowTail(head->tail);
 }
+
 void GameSceen::MoveSnakeUp()
 {
     snake.MoveTail(&snake);
@@ -153,6 +174,7 @@ void GameSceen::MoveSnakeRight()
 Snake::Snake(int startX, int startY)
     : x(startX), y(startY)
 {
+
 }
 
 void Snake::MoveUp()
@@ -190,10 +212,14 @@ bool GameSceen::CheckBoundary()
     int snakeX = snake.GetX();
     int snakeY = snake.GetY();
 
+    if (snake.CheckCollisionTail(snake.tail, snakeX, snakeY))
+    {
+        return true;
+    }
+
     // 테두리에 닿았을 때 게임 종료
     if (snakeX == 0 || snakeX == screenWidth - 1 || snakeY == 0 || snakeY == screenHeight - 1)
     {
-        isGameOver = true;
         return true;
     }
     return false;
@@ -204,3 +230,4 @@ void Snake::SnakeMove()
     x = 50 / 2;
     y = 25 / 2;
 }
+

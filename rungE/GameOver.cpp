@@ -40,6 +40,24 @@ void GameOver::PlayOver()
     std::cout << "         >> 게임종료         " << std::endl;
     std::cout << "============================" << std::endl;
 }
+void GameOver::DownPlayOver()
+{
+    std::cout << "============================" << std::endl;
+    std::cout << "   당신은 죽었습니다   " << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << ANSI_COLOR_RESET"         >> 다시하기         " << std::endl;
+    std::cout << ANSI_COLOR_RED"         >> 게임종료         " << std::endl;
+    std::cout << ANSI_COLOR_RESET"============================" << std::endl;
+}
+void GameOver::UpPlayOver()
+{
+    std::cout << "============================" << std::endl;
+    std::cout << "   당신은 죽었습니다   " << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << ANSI_COLOR_RED"         >> 다시하기         " << std::endl;
+    std::cout << ANSI_COLOR_RESET"         >> 게임종료         " << std::endl;
+    std::cout << ANSI_COLOR_RESET"============================" << std::endl;
+}
 char GameOver::GetInput()
 {
     return _getch();

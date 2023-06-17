@@ -3,11 +3,13 @@
 #include "GameMenu.h"
 #include "GameSceen.h"
 #include "GameOver.h"
+#include <windows.h> 
 
 #define KEY_ESC 27
 #define KEY_DOWN 80
 #define KEY_UP 72
 #define KEY_ENTER 13
+
 
 int main()
 {
@@ -24,6 +26,7 @@ int main()
 
     bool gameRunning = true;
     bool menuRunning = true;
+    bool gameStarted = false;
 
     int screenWidth = 50;
     int screenHeight = 25;
@@ -74,9 +77,9 @@ int main()
                     }
                     break;
                 case KEY_ENTER:
-                    system("cls");
                     if (!isOut)
                     {
+                        system("cls");
                         isKeep = false;
                         gameScreen.InitScreenBuf();
                         gameScreen.Draw();
@@ -136,11 +139,9 @@ int main()
                     if (gameScreen.CheckBoundary())
                     {
                         system("cls");
-                        gameOver.PrintOver();
-                        gameStatus = 2;
+                        gameOver.PlayOver();
+                        gameStatus = 3;
                         isOver = true;
-                        //gameScreen.snake.SnakeMove();
-                        
                     }
                 }
             }
@@ -172,6 +173,50 @@ int main()
                         system("cls");
                         isKeep = false;
                         gameScreen.InitScreenBuf();
+                        gameScreen.Init();
+                        gameScreen.Draw();
+                        gameStatus = 1;
+                        isExit = true;
+                        isOver = false;
+                    }
+                    if (isOut)
+                    {
+                        system("cls");
+                        std::cout << "게임을 종료합니다." << std::endl;
+                        gameRunning = false;
+                    }
+                    break;
+                }
+            }
+            else if (gameStatus == 3)
+            {
+                switch (Input)
+                {
+                case KEY_DOWN:
+                    isOut = true;
+                    if (isOver)
+                    {
+                        isOut = true;
+                        system("cls");
+                        gameOver.DownPlayOver();
+                    }
+                    break;
+                case KEY_UP:
+                    isOut = false;
+                    if (isOver)
+                    {
+                        isOut = false;
+                        system("cls");
+                        gameOver.UpPlayOver();
+                    }
+                    break;
+                case KEY_ENTER:
+                    if (!isOut)
+                    {
+                        system("cls");
+                        isKeep = false;
+                        gameScreen.InitScreenBuf();
+                        gameScreen.Init();
                         gameScreen.Draw();
                         gameStatus = 1;
                         isExit = true;

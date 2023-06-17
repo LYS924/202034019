@@ -7,5 +7,7 @@ public:
 	void DownOver();
 	void UpOver();
 	void PlayOver();
+	void DownPlayOver();
+	void UpPlayOver();
 	char GetInput();
 };
